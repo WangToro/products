@@ -1,20 +1,14 @@
 import os #operating system
 
-#檢查檔案是否存在於電腦
-def read(filename):
+#讀取檔案
+def read_file(filename):
 	products = []
-	if os.path.isfile(filename):
-		print('yeah! 找到檔案了!')
-		#讀取檔案
-		with open(filename, 'r', encoding='utf-8') as f:
-			for line in f:
-				if '商品,價格' in line:
-					continue
-				name, price = line.strip().split(',')
-				products.append([name, price])
-		print(products)
-	else:
-		print('找不到檔案.........')
+	with open(filename, 'r', encoding='utf-8') as f:
+		for line in f:
+			if '商品,價格' in line:
+				continue
+			name, price = line.strip().split(',')
+			products.append([name, price])
 	return products
 
 #讓使用者輸入
@@ -49,7 +43,17 @@ def write_file(filename, products):
 		for p in products:
 			f.write(p[0] + ',' + str(p[1]) + '\n')
 
-products = read_file('products.csv')
-products = user_input(products)
-print_products(products)
-write_file('products.csv', products)
+#主程式
+def main():
+	filename = 'products.csv'
+	if os.path.isfile(filename):#檢查檔案是否存在於電腦
+		print('yeah! 找到檔案了!')
+		products = read_file(filename)
+	else:
+		print('找不到檔案')
+
+	products = user_input(products)
+	print_products(products)
+	write_file(filename, products)
+
+main()
